@@ -1,14 +1,13 @@
 # Quick start
 
-In this guide we will see how to start the [Initium Platform](https://github.com/nearform/initium-platform) locally and deploy an application to it from a github action using the [Initium CLI](https://github.com/nearform/initium-cli).
+In this guide we will see how to start the [Initium Platform](https://github.com/nearform/initium-platform) to an EKS cluster and deploy an application to it from a GitHub action using the [Initium CLI](https://github.com/nearform/initium-cli).
 
 ## Prerequisites
 
-The Initium Platform uses `kind` so you need at least a way to run Docker.
-
-We use [asdf](https://asdf-vm.com/) to install the remanining tools.
-
-You can use [ngrok](https://ngrok.com/) to expose the platform to the GitHub action.
+- A working EKS cluster
+  - you can install the `eksctl` binary and create a cluster with it using the tools provided by `asdf` in `initium-platform` as explained below
+- The EBS CSI driver installed on the cluster
+  - you can follow [these instructions](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) to get it installed
 
 ## The Platform
 
@@ -25,21 +24,35 @@ cd initium-platform
 make asdf_install
 ```
 
-3. Start the platform
+3. Create the EKS cluster (if you don't have one yet)
 
 ```bash
-make
+AWS_DEFAULT_REGION=<your default region> ~/.asdf/installs/eksctl/<eksctl version installed>/bin/eksctl create cluster
 ```
 
-4. Wait for the initum-platform to be ready in the Tilt interface.
+4. Install ArgoCD (can be skipped if you already have a cluster and ArgoCD installed in it)
 
-5. Expose the cluster via ngrok
-
-```
-ngrok tcp --region us <control-plane-port> 
+```bash
+make argocd
 ```
 
-**Note:** you can find the control plane port with `kubectl cluster-info`
+5. Apply the `initium-platform` app-of-apps.yaml manifest
+    1. Check the [initium-platform releases page](https://github.com/nearform/initium-platform/releases) for the file
+    2. Apply it with
+    ```bash
+    kubectl apply -f app-of-apps.yaml
+    ```
+
+6. Access ArgoCD and wait for the services to go green
+    1. if you installed ArgoCD using `initium-platform`, you should be able to create a port forwarding to the ArgoCD service
+    ```bash
+    kubectl port-forward -n argocd svc/argocd-server 8080:80
+    ```
+    2. then you retrieve the admin credentials with
+    ```bash
+    kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+    ```
+    3. and access it on http://localhost:8080
 
 ## The CLI
 
@@ -48,12 +61,13 @@ ngrok tcp --region us <control-plane-port>
 2. Fork the Initium [NodeJS demo app](https://github.com/nearform/initium-nodejs-demo-app)
 
 3. Setup the cluster credentials
+    1. remember to replace `<YOUR_CLUSTER_NAME>` with your cluster name
 
 ```
 initium-cli init service-account | kubectl apply -f -
 
 export INITIUM_LB_ENDPOINT="$(kubectl get service -n istio-ingress istio-ingressgateway -o go-template='{{(index .status.loadBalancer.ingress 0).ip}}'):80"
-export INITIUM_CLUSTER_ENDPOINT=$(kubectl config view -o jsonpath='{.clusters[?(@.name == "kind-initium-platform")].cluster.server}')
+export INITIUM_CLUSTER_ENDPOINT=$(kubectl config view -o jsonpath='{.clusters[?(@.name == "<YOUR CLUSTER NAME>")].cluster.server}')
 export INITIUM_CLUSTER_TOKEN=$(kubectl get secrets initium-cli-token -o jsonpath="{.data.token}" | base64 -d)
 export INITIUM_CLUSTER_CA_CERT=$(kubectl get secrets initium-cli-token -o jsonpath="{.data.ca\.crt}" | base64 -d)
 ```
@@ -62,7 +76,7 @@ export INITIUM_CLUSTER_CA_CERT=$(kubectl get secrets initium-cli-token -o jsonpa
 
 - CLUSTER_CA_CERT: `echo $INITIUM_CLUSTER_CA_CERT`
 - CLUSTER_TOKEN: `echo $INITIUM_CLUSTER_TOKEN`
-- CLUSTER_ENDPOINT: use the ngrok endpoint here in the format `#.tcp.ngrok.io:PORT`
+- CLUSTER_ENDPOINT: use the output of `echo $INITIUM_CLUSTER_ENDPOINT` in the format `ADDRESS:PORT`
 
 5. Initialize the initium config and actions in a new branch of the repo you forked
 
