@@ -7,6 +7,8 @@ In this guide we will see how to start the [Initium Platform](https://github.com
 - A working GKE cluster
   - you can install the `gcloud` binary and create a cluster with it using the tools provided by `asdf` in `initium-platform` as explained below
 - The Kubernetes Engine API (container.googleapis.com) enabled in GCP
+- The cluster's control plane should be publicly exposed so the CLI can reach it
+  - remember to check the cluster's networking options
 
 ## The Platform
 
@@ -67,6 +69,7 @@ make argocd
 1. Download the lastest release of the CLI for your operating system [here](https://github.com/nearform/initium-cli/releases) and add it to your PATH.
 
 2. Fork the Initium [NodeJS demo app](https://github.com/nearform/initium-nodejs-demo-app)
+    1. Remember to set the GitHub Actions workflow permissions to "read and write" [here](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#configuring-the-default-github_token-permissions)
 
 3. Setup the cluster credentials
     1. remember to replace `<YOUR_CLUSTER_NAME>` with your cluster name
@@ -74,7 +77,7 @@ make argocd
 ```
 initium-cli init service-account | kubectl apply -f -
 
-export INITIUM_LB_ENDPOINT="$(kubectl get service -n istio-ingress istio-ingressgateway -o go-template='{{(index .status.loadBalancer.ingress 0).ip}}'):80"
+export INITIUM_LB_ENDPOINT="$(kubectl get service -n istio-ingress istio-ingressgateway -o go-template='{{(index .status.loadBalancer.ingress 0).hostname}}'):80"
 export INITIUM_CLUSTER_ENDPOINT=$(kubectl config view -o jsonpath='{.clusters[?(@.name == "<YOUR CLUSTER NAME>")].cluster.server}')
 export INITIUM_CLUSTER_TOKEN=$(kubectl get secrets initium-cli-token -o jsonpath="{.data.token}" | base64 -d)
 export INITIUM_CLUSTER_CA_CERT=$(kubectl get secrets initium-cli-token -o jsonpath="{.data.ca\.crt}" | base64 -d)
@@ -91,7 +94,7 @@ export INITIUM_CLUSTER_CA_CERT=$(kubectl get secrets initium-cli-token -o jsonpa
 ```
 cd initium-nodejs-demo-app
 git checkout -b initium-test
-initium-cli --app-name "demo-app" init config > .initium.yaml
+initium-cli init config --persist
 initium-cli init github
 ```
 
