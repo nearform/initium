@@ -75,7 +75,7 @@ make argocd
     1. remember to replace `<YOUR_CLUSTER_NAME>` with your cluster name
 
 ```
-initium-cli init service-account | kubectl apply -f -
+initium init service-account | kubectl apply -f -
 
 export INITIUM_LB_ENDPOINT="$(kubectl get service -n istio-ingress istio-ingressgateway -o go-template='{{(index .status.loadBalancer.ingress 0).hostname}}'):80"
 export INITIUM_CLUSTER_ENDPOINT=$(kubectl config view -o jsonpath='{.clusters[?(@.name == "<YOUR CLUSTER NAME>")].cluster.server}')
@@ -94,8 +94,8 @@ export INITIUM_CLUSTER_CA_CERT=$(kubectl get secrets initium-cli-token -o jsonpa
 ```
 cd initium-nodejs-demo-app
 git checkout -b initium-test
-initium-cli init config --persist
-initium-cli init github
+initium init config --persist
+initium init github
 ```
 
 6. Commit the changes and open a PR
