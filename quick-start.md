@@ -61,7 +61,7 @@ export INITIUM_CLUSTER_CA_CERT=$(kubectl get secrets initium-cli-token -o jsonpa
 4. [Create the following secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) in your forked repo
 
 - CLUSTER_CA_CERT: `echo $INITIUM_CLUSTER_CA_CERT`
-- CLUSTER_TOKEN: `echo #INITIUM_CLUSTER_TOKEN`
+- CLUSTER_TOKEN: `echo $INITIUM_CLUSTER_TOKEN`
 - CLUSTER_ENDPOINT: use the ngrok endpoint here in the format `#.tcp.ngrok.io:PORT`
 
 5. Initialize the initium config and actions in a new branch of the repo you forked
