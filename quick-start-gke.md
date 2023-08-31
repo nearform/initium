@@ -1,13 +1,13 @@
 # Quick start
 
-In this guide we will see how to start the [Initium Platform](https://github.com/nearform/initium-platform) to a GKE cluster and deploy an application to it from a GitHub action using the [Initium CLI](https://github.com/nearform/initium-cli).
+In this guide we will see how to start the [Initium Platform](https://github.com/nearform/initium-platform) on a GKE cluster and deploy an application to it from a GitHub action using the [Initium CLI](https://github.com/nearform/initium-cli).
 
 ## Prerequisites
 
-- A working GKE cluster
+- A standard **(non-autopilot)** working GKE cluster
   - you can install the `gcloud` binary and create a cluster with it using the tools provided by `asdf` in `initium-platform` as explained below
 - The Kubernetes Engine API (container.googleapis.com) enabled in GCP
-- The cluster's control plane should be publicly exposed so the CLI can reach it
+- The cluster's control plane should be network accessible so the CLI can reach it (through a VPN or public networks)
   - remember to check the cluster's networking options
 
 ## The Platform
@@ -25,13 +25,17 @@ cd initium-platform
 make asdf_install
 ```
 
-3. Install the `gke-gcloud-auth-plugin`
+**Steps 3 and 4 are not needed if you already have a GKE cluster.**
+
+
+3. Install the `gke-gcloud-auth-plugin` and login
 
 ```bash
 gcloud components install gke-gcloud-auth-plugin
+gcloud auth login
 ```
 
-4. Create the EKS cluster (if you don't have one yet)
+4. Create the GKE cluster
     1. Replace "YOUR DEFAULT ZONE" and "COMMA-SEPARATED LIST OF NODE ZONES" with your default GCP region
 
 ```bash
@@ -40,20 +44,22 @@ gcloud container clusters create initium-cluster \
     --node-locations <COMMA-SEPARATED LIST OF NODE ZONES>
 ```
 
-5. Install ArgoCD (can be skipped if you already have a cluster and ArgoCD installed in it)
+**Step 5 is not needed if you already have ArgoCD installed in your cluster.**
+
+5. Install ArgoCD
 
 ```bash
 make argocd
 ```
 
-5. Apply the `initium-platform` app-of-apps.yaml manifest
+6. Apply the `initium-platform` app-of-apps.yaml manifest
     1. Check the [initium-platform releases page](https://github.com/nearform/initium-platform/releases) for the file
     2. Apply it with
     ```bash
     kubectl apply -f app-of-apps.yaml
     ```
 
-6. Access ArgoCD and wait for the services to go green
+7. Access ArgoCD and wait for the services to go green
     1. if you installed ArgoCD using `initium-platform`, you should be able to create a port forwarding to the ArgoCD service
     ```bash
     kubectl port-forward -n argocd svc/argocd-server 8080:80
