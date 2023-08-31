@@ -80,7 +80,7 @@ initium-cli init github
 If you followed the guide, the endpoint should look like the following
 
 ```
-curl -H "Host: initium-nodejs-demo-app.initium-test.example.com" $KKA_LB_ENDPOINT
+curl -H "Host: initium-nodejs-demo-app.initium-test.example.com" $INITIUM_LB_ENDPOINT
 ```
 
 And the call should return:
@@ -92,7 +92,7 @@ Hello, World!
 8. If you merge the PR (DO NOT DELETE THE BRANCH RIGHT AWAY!!!), the service will be removed and a new one will be created for the main branch.
 
 ```
-curl -H "Host: initium-nodejs-demo-app.main.example.com" $KKA_LB_ENDPOINT
+curl -H "Host: initium-nodejs-demo-app.main.example.com" $INITIUM_LB_ENDPOINT
 ```
 
 9. 🚀
