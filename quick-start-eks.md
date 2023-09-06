@@ -27,7 +27,7 @@ cd initium-platform
 make asdf_install
 ```
 
-3. Create the EKS cluster (if you don't have one yet)
+3. [Create the EKS cluster](https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html) (if you don't have one yet)
 
 ```bash
 AWS_DEFAULT_REGION=<your default region> ~/.asdf/installs/eksctl/<eksctl version installed>/bin/eksctl create cluster
@@ -107,7 +107,7 @@ And the call should return:
 Hello, World!
 ```
 
-8. If you merge the PR (DO NOT DELETE THE BRANCH RIGHT AWAY!!!), the service will be removed and a new one will be created for the main branch.
+8. If you merge the PR, the service will be removed and a new one will be created for the main branch.
 
 ```
 curl -H "Host: initium-nodejs-demo-app.main.example.com" $INITIUM_LB_ENDPOINT
