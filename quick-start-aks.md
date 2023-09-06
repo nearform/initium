@@ -64,7 +64,6 @@ az aks get-credentials --name ${AKS_CLUSTER}  --resource-group ${AKS_RESOURCE_GR
 ```
 We recommend to use `Standard_DS3` as the VM Node size as the Initium workload needs more memory (at least 14 GiB)
 
-
 ## Initium Platform Setup
 
 ### Clone the platform repository
@@ -82,7 +81,9 @@ make asdf_install
 
 ### Login to Azure CLI 
 
-Login using CLI as from above. Note that at this point you would have a AKS Cluster ready to use.
+Login using CLI as from above from the root of the `initium-platform` repo 
+
+>Note that at this point you would have a AKS Cluster ready to use.
 
 ### Check Cluster access
 
@@ -103,7 +104,7 @@ kubectl cluster-info
 ```
 
 ### Install ArgoCD
-From the root of the `initium-platform` project run below command
+From the root of the `initium-platform` repo run below command
 
 ```bash
 make argocd
@@ -129,43 +130,51 @@ kubectl apply -f app-of-apps.yaml
     ```
 - and access it on http://localhost:8080
 
-## The CLI
+## Setup Initium CLI.
+Ignore these steps in case you already have Initium CLI installed.
 
 - Download the lastest release of the CLI for your operating system [here](https://github.com/nearform/initium-cli/releases) and add it to your PATH.
+- Alternatively you can build the CLI from source refer [repo](https://github.com/nearform/initium-cli)
 
-- Fork the Initium [NodeJS demo app](https://github.com/nearform/initium-nodejs-demo-app)
-    1. Remember to set the GitHub Actions workflow permissions to "read and write" [here](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#configuring-the-default-github_token-permissions)
+## Deploy demo app via github actions on PR
 
-- Setup the cluster credentials
-    - remember to replace `<YOUR_CLUSTER_NAME>` with your cluster name
+1. Fork the Initium [NodeJS demo app](https://github.com/nearform/initium-nodejs-demo-app)
+
+> Remember to set the GitHub Actions workflow permissions to "read and write" [here](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#configuring-the-default-github_token-permissions)
+
+2. Setup environment varibale to hold the cluster credentials
+    - remember to replace `<YOUR_CLUSTER_NAME>` with your cluster name in below commands
+
+    ```bash
+    initium init service-account | kubectl apply -f -
+
+    export INITIUM_LB_ENDPOINT="$(kubectl get service -n istio-ingress istio-ingressgateway -o go-template='{{(index .status.loadBalancer.ingress 0).ip}}'):80"
+
+    export INITIUM_CLUSTER_ENDPOINT=$(kubectl config view -o jsonpath='{.clusters[?(@.name == "<YOUR CLUSTER NAME>")].cluster.server}')
+
+    export INITIUM_CLUSTER_TOKEN=$(kubectl get secrets initium-cli-token -o jsonpath="{.data.token}" | base64 -d)
+
+    export INITIUM_CLUSTER_CA_CERT=$(kubectl get secrets initium-cli-token -o jsonpath="{.data.ca\.crt}" | base64 -d)
+    ```
+
+3. [Create the following secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) in your forked repo
+
+    - CLUSTER_CA_CERT: `echo $INITIUM_CLUSTER_CA_CERT`
+    - CLUSTER_TOKEN: `echo $INITIUM_CLUSTER_TOKEN`
+    - CLUSTER_ENDPOINT: use the output of `echo $INITIUM_CLUSTER_ENDPOINT` in the format `ADDRESS:PORT`
+
+4. Initialize the initium config and actions in a new branch of the repo you forked
 
 ```bash
-initium init service-account | kubectl apply -f -
-
-export INITIUM_LB_ENDPOINT="$(kubectl get service -n istio-ingress istio-ingressgateway -o go-template='{{(index .status.loadBalancer.ingress 0).ip}}'):80"
-export INITIUM_CLUSTER_ENDPOINT=$(kubectl config view -o jsonpath='{.clusters[?(@.name == "<YOUR CLUSTER NAME>")].cluster.server}')
-export INITIUM_CLUSTER_TOKEN=$(kubectl get secrets initium-cli-token -o jsonpath="{.data.token}" | base64 -d)
-export INITIUM_CLUSTER_CA_CERT=$(kubectl get secrets initium-cli-token -o jsonpath="{.data.ca\.crt}" | base64 -d)
-```
-
-4. [Create the following secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) in your forked repo
-
-- CLUSTER_CA_CERT: `echo $INITIUM_CLUSTER_CA_CERT`
-- CLUSTER_TOKEN: `echo $INITIUM_CLUSTER_TOKEN`
-- CLUSTER_ENDPOINT: use the output of `echo $INITIUM_CLUSTER_ENDPOINT` in the format `ADDRESS:PORT`
-
-5. Initialize the initium config and actions in a new branch of the repo you forked
-
-```
 cd initium-nodejs-demo-app
 git checkout -b initium-test
 initium init config --persist
 initium init github
 ```
 
-6. Commit the changes and open a PR
+5. Commit the changes and open a PR
 
-7. Wait for the action to finish running and check the logs for the application endpoint
+6. Wait for the action to finish running and check the logs for the application endpoint
 
 If you followed the guide, the endpoint should look like the following
 
@@ -179,11 +188,11 @@ And the call should return:
 Hello, World!
 ```
 
-8. If you merge the PR (DO NOT DELETE THE BRANCH RIGHT AWAY!!!), the service will be removed and a new one will be created for the main branch.
+7. If you merge the PR (DO NOT DELETE THE BRANCH RIGHT AWAY!!!), the service will be removed and a new one will be created for the main branch.
 
 ```
 curl -H "Host: initium-nodejs-demo-app.main.example.com" $INITIUM_LB_ENDPOINT
 ```
 
-9. 🚀
+8. 🚀
 
