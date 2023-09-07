@@ -81,10 +81,6 @@ cd initium-platform
 make asdf_install
 ```
 
-### Login to Azure CLI 
-
-Login using CLI as from above from the root of the `initium-platform` repo 
-
 >Note that at this point you would have a AKS Cluster ready to use.
 
 ### Check Cluster access
