@@ -2,15 +2,97 @@
 
 In this guide we will see how to start the [Initium Platform](https://github.com/nearform/initium-platform) to an EKS cluster and deploy an application to it from a GitHub action using the [Initium CLI](https://github.com/nearform/initium-cli).
 
-## Prerequisites
+## Tools Required
 
-- A working EKS cluster
-  - you can install the `eksctl` binary and create a cluster with it using the tools provided by `asdf` in `initium-platform` as explained below
-  - you'll need to give the node role permissions to manage EBS volumes
-- The EBS CSI driver installed on the cluster
-  - you can follow [these instructions](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) to get it installed
-- The cluster's control plane should be publicly exposed so the CLI can reach it
-  - remember to check the cluster's security groups
+You need to setup below tools in order to proceed with this guide.
+
+- eksctl cli [Install this tool either following offical guide or using `asdf` utility]
+- aws cli [Install this tool either following offical guide or using `asdf` utility]
+- Initium platform (Refer Initium project)
+
+
+## Create EKS Cluster
+
+If you do not have a cluster with below requirement then proceed with the instruction from this doc.
+
+- EKS Cluster that is in ready state and requires a 2 node clusters with instances of minimum `m5_large` (Need to check with original author) size. 
+- EBS CSI Driver should be installed as Grafana Loki will consume EBS disk.
+- The cluster's control plane should be publicly exposed so the CLI can reach it and remember to check the cluster's security groups
+
+We are going to use `eksctl` and `aws` cli to provision the eks cluster.
+
+### Authenticate with AWS
+
+Get the AWS credentials for programmatic access and run below command then enter the credentials when prompted. Refer the [AWS docs](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html) for other methods to authenticate with AWS.
+
+```bash
+$ aws configure
+  AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
+  AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+  Default region name [None]: us-west-2
+  Default output format [None]: json
+$ aws configure set aws_session_token fcZib3JpZ2luX2IQoJb3JpZ2luX2IQoJb3JpZ2luX2IQoJb3JpZ2luX2IQoJb3JpZVERYLONGSTRINGEXAMPLE
+
+```
+
+### Create EKS Cluster
+
+Create cluster using eksctl by running below command from the terminal. Note that this command will provision a Kubernetes cluster with default configuration. It will be a 2 node cluster and by default allows all traffic to the nodes. And set your default region code in the environment variable
+
+```bash
+# Set the AWS deployment region
+export AWS_DEFAULT_REGION=eu-north-1
+
+# Create EKS Cluster using eksctl cli
+eksctl create cluster
+
+# Get Cluster name by running below command and grab the name for next command.
+eksctl get clusters
+
+# Set environemt variable for storing EKS Cluster name for further use.
+export CLUSTER_NAME=unique-creature-1694101553
+
+```
+
+### Create & Associate IAM OIDC Provider for our EKS
+
+This enables us to use AWS IAM Roles for Kubernetes service accounts on our EKS Cluster.
+
+
+```bash
+eksctl utils associate-iam-oidc-provider \
+    --region ${AWS_DEFAULT_REGION}  \
+    --cluster ${CLUSTER_NAME} \
+    --approve
+```
+
+### Install EBS CSI driver add on
+
+EBS CSI driver is consumed by the Grafana Loki service and we need to perform below steps to install this as Addon to the cluster.
+
+#### Create EBS CSI Drive role
+
+Create an IAM role and attach the required AWS managed policy with the following command. 
+
+```bash
+eksctl create iamserviceaccount \
+    --name ebs-csi-controller-sa \
+    --namespace kube-system \
+    --cluster ${CLUSTER_NAME} \
+    --role-name AmazonEKS_EBS_CSI_DriverRole \
+    --role-only \
+    --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+    --approve
+```
+
+#### Adding the Amazon EBS CSI driver add-on
+
+Run the following command. Replace `567858888620` with your account ID, and `AmazonEKS_EBS_CSI_DriverRole`
+
+```bash
+eksctl create addon --name aws-ebs-csi-driver --cluster ${CLUSTER_NAME} --service-account-role-arn arn:aws:iam::567858888620:role/AmazonEKS_EBS_CSI_DriverRole --force
+
+```
 
 ## The Platform
 
