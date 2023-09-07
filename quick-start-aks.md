@@ -17,7 +17,7 @@ In this quick start guide we use the option `Sign in interactively` which would 
 az login
 ```
 
-In case you have access to multiple Azure subscription set the account from CLI as below
+In case you have access to multiple Azure Subscriptions, set the account using the CLI, as described below:
 
 ``` bash
 az account set -s <Subscription name or Id>
