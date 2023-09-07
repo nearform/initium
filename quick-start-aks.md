@@ -9,7 +9,7 @@ Install `azure-cli` on your machine by following the [Azure official guide](http
 
 ## Login to Azure
 
-Run below command. Note that there are different way we can authenticate with Azure using Azure CLI refer [MS Docs Az login](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli)
+Run the command below. Note that there are different ways one can log into Azure using the Azure CLI. Refer to the [az login docs](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli) if you have any questions.
 
 For this guide, we'll use the option `Sign in interactively`, which will open a browser window to prompt the user for their login credentials.
 
