@@ -64,7 +64,7 @@ az aks create --resource-group ${AKS_RESOURCE_GROUP} \
 az aks get-credentials --name ${AKS_CLUSTER}  --resource-group ${AKS_RESOURCE_GROUP} 
 
 ```
-We recommend to use `Standard_DS3` as the VM Node size as the Initium workload needs more memory (at least 14 GiB)
+We recommend you to use `Standard_DS3` as the VM Node size as the Initium workloads need some memory (around 14 GiB)
 
 ## Initium Platform Setup
 
