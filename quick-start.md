@@ -80,7 +80,7 @@ initium-cli init github
 
 7. Wait for the action to finish running and check the logs for the application endpoint
 
-    In order to be able to reach out the application that was just deployed follow the steps below depending on the platform Kubernetes cluster runs on. 
+    In order to be able to reach out the application that was just deployed follow the steps below depending on the underlying system Kubernetes cluster runs on. 
 
     If docker network is reachable from your terminal use the following parameter to setup LB endpoint:
 
@@ -107,7 +107,7 @@ initium-cli init github
     Hello, World!
     ```
 
-8. If you merge the PR, the service created with pull request will be removed and a new one will be created for the main branch following the same naming convention as before:
+8. If you merge the PR, the service already created with pull request will be removed and a new one will be created for the main branch following the same naming convention as before:
 
 ```
 curl -H "Host: initium-nodejs-demo-app.main.example.com" $INITIUM_LB_ENDPOINT
