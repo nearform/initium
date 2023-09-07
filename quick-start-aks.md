@@ -20,7 +20,7 @@ az login
 In case you have access to multiple Azure subscription set the account from CLI as below
 
 ``` bash
-az account -s <Subscription name or Id>
+az account set -s <Subscription name or Id>
 ```
 ## Create AKS Cluster for Dev/Test Purpose
 
