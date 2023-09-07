@@ -27,11 +27,11 @@ az account -s <Subscription name or Id>
 From the command line run below command to create a AKS cluster. Note that you need to create a new resource group to host the AKS resource.
 
 ``` bash
-AKS_RESOURCE_GROUP="<Your Resource Group Name>"
-AKS_CLUSTER="initium-test-aks-cluster" # Set the name of the cluster as you require
+export AKS_RESOURCE_GROUP="<Your Resource Group Name>"
+export AKS_CLUSTER="initium-test-aks-cluster" # Set the name of the cluster as you require
 
 # Create Log Analytics Workspace
-AKS_MONITORING_LOG_ANALYTICS_WORKSPACE_ID=$(az monitor log-analytics workspace create \
+export AKS_MONITORING_LOG_ANALYTICS_WORKSPACE_ID=$(az monitor log-analytics workspace create \
     --resource-group ${AKS_RESOURCE_GROUP} \
     --workspace-name initium-test-aks-workspace \
     --query id \
@@ -89,8 +89,8 @@ Login using CLI as from above from the root of the `initium-platform` repo
 
 ``` bash
 
-AKS_RESOURCE_GROUP="<Update your resource group>"
-AKS_CLUSTER="initium-test-aks-cluster"
+export AKS_RESOURCE_GROUP="<Update your resource group>"
+export AKS_CLUSTER="initium-test-aks-cluster"
 
 # Configure Credentials
 az aks get-credentials --name ${AKS_CLUSTER}  --resource-group ${AKS_RESOURCE_GROUP} 
@@ -145,7 +145,7 @@ Ignore these steps in case you already have Initium CLI installed.
 2. Setup environment varibale to hold the cluster credentials
     - remember to replace `<YOUR_CLUSTER_NAME>` with your cluster name in below commands
 
-    ```bash
+```bash
     initium init service-account | kubectl apply -f -
 
     export INITIUM_LB_ENDPOINT="$(kubectl get service -n istio-ingress istio-ingressgateway -o go-template='{{(index .status.loadBalancer.ingress 0).ip}}'):80"
@@ -155,7 +155,7 @@ Ignore these steps in case you already have Initium CLI installed.
     export INITIUM_CLUSTER_TOKEN=$(kubectl get secrets initium-cli-token -o jsonpath="{.data.token}" | base64 -d)
 
     export INITIUM_CLUSTER_CA_CERT=$(kubectl get secrets initium-cli-token -o jsonpath="{.data.ca\.crt}" | base64 -d)
-    ```
+```
 
 3. [Create the following secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) in your forked repo
 
