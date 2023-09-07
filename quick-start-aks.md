@@ -81,7 +81,7 @@ cd initium-platform
 make asdf_install
 ```
 
->Note that at this point you would have a AKS Cluster ready to use.
+**NOTE: at this point you will need an AKS Cluster ready to use.**
 
 ### Check Cluster access
 
