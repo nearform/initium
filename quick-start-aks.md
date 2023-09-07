@@ -122,7 +122,7 @@ kubectl apply -f app-of-apps.yaml
 ```
 
 ### Access ArgoCD and wait for the services to go green
-- if you installed ArgoCD using `initium-platform`, you should be able to create a port forwarding to the ArgoCD service
+- If you installed ArgoCD using `initium-platform`, you should be able to create a port forward to the ArgoCD service.
     ```bash
     kubectl port-forward -n argocd svc/argocd-server 8080:80
     ```
