@@ -75,38 +75,41 @@ initium-cli init config > .initium.yaml
 initium-cli init github
 ```
 
-6. Commit the changes and open a PR
+6. Commit the changes and open a PR. Please use the following values in order to be aligned with the commands on the next steps:
+    - app-name = initium-nodejs-demo-app (part of *.initium.yaml*)
+    - branch-name = initium-test
+
 
 7. Wait for the action to finish running and check the logs for the application endpoint
 
-In order to be able to reach out the application that was just deployed follow the steps below depending on the platform Kubernetes cluster runs on. 
+    In order to be able to reach out the application that was just deployed follow the steps below depending on the platform Kubernetes cluster runs on. 
 
-7.1
-If docker network is reachable from your terminal use the following parameter to setup LB endpoint:
+    If docker network is reachable from your terminal use the following parameter to setup LB endpoint:
 
-```
-export INITIUM_LB_ENDPOINT="$(kubectl get service -n istio-ingress istio-ingressgateway -o go-template='{{(index .status.loadBalancer.ingress 0).ip}}'):80"
-```
-If docker network is not reachable (i.e. Rancher Desktop on M1 Mac) you just need to use port forwarding with istio & setup LB endpoint as follows:
+    ```
+    export INITIUM_LB_ENDPOINT="$(kubectl get service -n istio-ingress istio-ingressgateway -o go-template='{{(index .status.loadBalancer.ingress 0).ip}}'):80"
+    ```
+    
+    If docker network is not reachable (i.e. Rancher Desktop on M1 Mac) you just need to use port forwarding with istio & setup LB endpoint as follows:
 
-```
-kubectl port-forward service/istio-ingressgateway -n istio-ingress 8080:80
-export INITIUM_LB_ENDPOINT="127.0.0.1:8080"
-```
+    ```
+    kubectl port-forward service/istio-ingressgateway -n istio-ingress 8080:80
+    export INITIUM_LB_ENDPOINT="127.0.0.1:8080"
+    ```
 
-If you followed the guide, the endpoint should look like the following
+    If you followed the guide, the endpoint should look like the following:
 
-```
-curl -H "Host: initium-nodejs-demo-app.initium-test.example.com" $INITIUM_LB_ENDPOINT
-```
+    ```
+    curl -H "Host: initium-nodejs-demo-app.initium-test.example.com" $INITIUM_LB_ENDPOINT
+    ```
 
-And the call should return:
+    And the call should return:
 
-```
-Hello, World!
-```
+    ```
+    Hello, World!
+    ```
 
-8. If you merge the PR, the service created on pull request will be removed and a new one will be created for the main branch.
+8. If you merge the PR, the service created on pull request will be removed and a new one will be created for the main branch following the same naming convention as before:
 
 ```
 curl -H "Host: initium-nodejs-demo-app.main.example.com" $INITIUM_LB_ENDPOINT
