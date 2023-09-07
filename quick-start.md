@@ -39,7 +39,7 @@ make
 5. Expose the cluster via ngrok
 
 ```
-ngrok tcp --region us $(kubectl config view --minify --output jsonpath='{.clusters[0].cluster.server}' | awk -F: '{print $NF}') 
+ngrok tcp --region us $(kubectl config view -o jsonpath='{.clusters[?(@.name == "kind-initium-platform")].cluster.server}' | awk -F: '{print $NF}') 
 ```
 
 ## The CLI
