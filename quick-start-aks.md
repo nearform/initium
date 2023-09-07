@@ -22,9 +22,11 @@ In case you have access to multiple Azure subscription set the account from CLI 
 ``` bash
 az account set -s <Subscription name or Id>
 ```
-## Create AKS Cluster for Dev/Test Purpose
+## Create AKS Cluster
 
-From the command line run below command to create a AKS cluster. Note that you need to create a new resource group to host the AKS resource.
+You can ignore this step if you already have a working AKS cluster.
+
+From your terminal, run the commands below to create a AKS cluster. Note that you need to create a new resource group to host the AKS resource (already covered by the commands).
 
 ``` bash
 export AKS_RESOURCE_GROUP="<Your Resource Group Name>"
