@@ -5,7 +5,7 @@ In this guide we will see how to start the [Initium Platform](https://github.com
 ## Install Azure CLI Locally
 Ignore this step if you already have Azure CLI setup.
 
-Install `azure-cli` for your OS by following the official guide [Install az cli official](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-macos). 
+Install `azure-cli` on your machine by following the [Azure official guide](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli). 
 
 ## Login to Azure
 
