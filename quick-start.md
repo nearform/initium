@@ -33,16 +33,14 @@ make
 
 4. Wait for the initum-platform to be ready in the Tilt interface.
 
-You can check Tilt UI by using [this](http://localhost:10350) URL.
+    You can check Tilt UI by using [this](http://localhost:10350) URL.
 
 
 5. Expose the cluster via ngrok
 
 ```
-ngrok tcp --region us $(kbl config view --minify --output jsonpath='{.clusters[0].cluster.server}' | awk -F: '{print $NF}') 
+ngrok tcp --region us $(kubectl config view --minify --output jsonpath='{.clusters[0].cluster.server}' | awk -F: '{print $NF}') 
 ```
-
-**Note:** you can find the control plane port with `kubectl cluster-info`
 
 ## The CLI
 
@@ -97,7 +95,7 @@ initium-cli init github
     export INITIUM_LB_ENDPOINT="127.0.0.1:8080"
     ```
 
-    If you followed the guide, the endpoint should look like the following:
+    If you followed the guide, the application should be reachable using the following:
 
     ```
     curl -H "Host: initium-nodejs-demo-app.initium-test.example.com" $INITIUM_LB_ENDPOINT
@@ -109,7 +107,7 @@ initium-cli init github
     Hello, World!
     ```
 
-8. If you merge the PR, the service created on pull request will be removed and a new one will be created for the main branch following the same naming convention as before:
+8. If you merge the PR, the service created with pull request will be removed and a new one will be created for the main branch following the same naming convention as before:
 
 ```
 curl -H "Host: initium-nodejs-demo-app.main.example.com" $INITIUM_LB_ENDPOINT
