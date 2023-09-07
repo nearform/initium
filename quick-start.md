@@ -45,6 +45,7 @@ ngrok tcp --region us $(kubectl config view -o jsonpath='{.clusters[?(@.name == 
 ## The CLI
 
 1. Download the lastest release of the CLI for your operating system [here](https://github.com/nearform/initium-cli/releases) and add it to your PATH.
+TODO: Once npx is ready this needs to be updated as an additional option.
 
 2. Fork the Initium [NodeJS demo app](https://github.com/nearform/initium-nodejs-demo-app)
 
