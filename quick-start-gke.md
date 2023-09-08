@@ -18,8 +18,8 @@ make asdf_install
 ```
 
 3. Create a standard **(non-autopilot)** GKE cluster (**If there is not a GKE cluster already in place**)
-  1. `gcloud` binary should be already in place using `asdf` from before 
-  2. Install the `gke-gcloud-auth-plugin` using the following depending on your system:
+    1. `gcloud` binary should be already in place using `asdf` from before 
+    2. Install the `gke-gcloud-auth-plugin` using the following depending on your system:
   
     Recommended way of plugin installation for Windows & OS X:
     ```bash
@@ -30,14 +30,14 @@ make asdf_install
     - [RPM based systems](https://cloud.google.com/sdk/docs/install#rpm)
     - [Other Linux distros](https://cloud.google.com/sdk/docs/install#linux)
 
-  3. Login to GKE:
+    3. Login to GKE:
 
     ```bash
     gcloud auth login
     ```
 
-  4. Create GKE cluster
-    1. Replace "YOUR DEFAULT ZONE" and "COMMA-SEPARATED LIST OF NODE ZONES" with your default GCP region
+    4. Create GKE cluster
+    Replace "YOUR DEFAULT ZONE" and "COMMA-SEPARATED LIST OF NODE ZONES" with your default GCP region
 
     ```bash
     gcloud container clusters create initium-cluster \
