@@ -62,11 +62,12 @@ make argocd
 
 6. Apply the `initium-platform` app-of-apps.yaml manifest
     
-    Check the [initium-platform releases page](https://github.com/nearform/initium-platform/releases) for the right file version & apply it. Replace the release version in the next command in both places, if needed. 
-        ```bash
-        wget -q https://github.com/nearform/initium-platform/releases/download/v0.1.0/app-of-apps.yaml && sed -i 's/v0.1.0/main/' app-of-apps.yaml
-        kubectl apply -f app-of-apps.yaml
-        ```
+    Check the [initium-platform releases page](https://github.com/nearform/initium-platform/releases) for the right file version & apply it. 
+    Replace the release version in the next command in both places, if needed:
+    ```bash
+    wget -q https://github.com/nearform/initium-platform/releases/download/v0.1.0/app-of-apps.yaml && sed -i 's/v0.1.0/main/' app-of-apps.yaml
+    kubectl apply -f app-of-apps.yaml
+    ```
 
 7. Access ArgoCD and wait for the services to go green
     1. if you installed ArgoCD using `initium-platform`, you should be able to create a port forwarding to the ArgoCD service
