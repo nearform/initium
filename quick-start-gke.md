@@ -2,14 +2,6 @@
 
 In this guide we will see how to start the [Initium Platform](https://github.com/nearform/initium-platform) on a GKE cluster and deploy an application to it from a GitHub action using the [Initium CLI](https://github.com/nearform/initium-cli).
 
-## Prerequisites
-
-- A standard **(non-autopilot)** working GKE cluster
-  - you can install the `gcloud` binary and create a cluster with it using the tools provided by `asdf` in `initium-platform` as explained below
-- The Kubernetes Engine API (container.googleapis.com) enabled in GCP
-- The cluster's control plane should be network accessible so the CLI can reach it (through a VPN or public networks)
-  - remember to check the cluster's networking options
-
 ## The Platform
 
 1. Clone the platform repository
@@ -25,34 +17,40 @@ cd initium-platform
 make asdf_install
 ```
 
-**Steps 3 and 4 are not needed if you already have a GKE cluster.**
+3. Create a standard **(non-autopilot)** GKE cluster (**If there is not a GKE cluster already in place**)
+  1. `gcloud` binary should be already in place using `asdf` from before 
+  2. Install the `gke-gcloud-auth-plugin` using the following depending on your system:
+  
+    Recommended way of plugin installation for Windows & OS X:
+    ```bash
+    gcloud components install gke-gcloud-auth-plugin
+    ```
+    Recommended way of pluigin installation for Linux:
+    - [DEB based systems](https://cloud.google.com/sdk/docs/install#deb)
+    - [RPM based systems](https://cloud.google.com/sdk/docs/install#rpm)
+    - [Other Linux distros](https://cloud.google.com/sdk/docs/install#linux)
 
+  3. Login to GKE:
 
-3. Install the `gke-gcloud-auth-plugin` and login
+    ```bash
+    gcloud auth login
+    ```
 
-Recommended way of plugin installation for Windows & OS X:
-```bash
-gcloud components install gke-gcloud-auth-plugin
-```
-Recommended way of pluigin installation for Linux:
-[DEB based systems](https://cloud.google.com/sdk/docs/install#deb)
-[RPM based systems](https://cloud.google.com/sdk/docs/install#rpm)
-[Other Linux distros](https://cloud.google.com/sdk/docs/install#linux)
-
-Login to GKE:
-
-```bash
-gcloud auth login
-```
-
-4. Create the GKE cluster
+  4. Create GKE cluster
     1. Replace "YOUR DEFAULT ZONE" and "COMMA-SEPARATED LIST OF NODE ZONES" with your default GCP region
 
-```bash
-gcloud container clusters create initium-cluster \
-    --zone <YOUR DEFAULT ZONE> \
-    --node-locations <COMMA-SEPARATED LIST OF NODE ZONES>
-```
+    ```bash
+    gcloud container clusters create initium-cluster \
+        --zone <YOUR DEFAULT ZONE> \
+        --node-locations <COMMA-SEPARATED LIST OF NODE ZONES>
+    ```
+
+4. Validate (if not already) that:
+    1. Kubernetes Engine API (container.googleapis.com) is enabled in GCP:
+    ```bash
+    gcloud services enable containerregistry.googleapis.com container.googleapis.com
+    ```
+    2. The cluster's control plane is network accessible so the CLI can reach it (through a VPN or public networks) - potentially check the cluster's networking options
 
 **Step 5 is not needed if you already have ArgoCD installed in your cluster.**
 
@@ -63,8 +61,7 @@ make argocd
 ```
 
 6. Apply the `initium-platform` app-of-apps.yaml manifest
-    1. Check the [initium-platform releases page](https://github.com/nearform/initium-platform/releases) for the right file version. Replace the release version in the next command in both places, if needed. 
-    2. Apply it with
+    1. Check the [initium-platform releases page](https://github.com/nearform/initium-platform/releases) for the right file version & apply it. Replace the release version in the next command in both places, if needed. 
     ```bash
     wget -q https://github.com/nearform/initium-platform/releases/download/v0.1.0/app-of-apps.yaml && sed -i 's/v0.1.0/main/' app-of-apps.yaml
     kubectl apply -f app-of-apps.yaml
