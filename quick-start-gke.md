@@ -61,6 +61,7 @@ make argocd
 ```
 
 6. Apply the `initium-platform` app-of-apps.yaml manifest
+    
     Check the [initium-platform releases page](https://github.com/nearform/initium-platform/releases) for the right file version & apply it. Replace the release version in the next command in both places, if needed. 
         ```bash
         wget -q https://github.com/nearform/initium-platform/releases/download/v0.1.0/app-of-apps.yaml && sed -i 's/v0.1.0/main/' app-of-apps.yaml
@@ -118,21 +119,21 @@ initium init service-account | kubectl apply -f -
     ```
     export INITIUM_LB_ENDPOINT="$(kubectl get service -n istio-ingress istio-ingressgateway -o go-template='{{(index .status.loadBalancer.ingress 0).ip}}'):80"
     ```
-    
+
     If you followed the guide, the endpoint should be reachable using the following:
-    
+
     ```
     curl -H "Host: initium-nodejs-demo-app.initium-test.example.com" $INITIUM_LB_ENDPOINT
     ```
-    
+
     And the call should return:
-    
+
     ```
     Hello, World!
     ```
-    
+
     8. If you merge the PR, the service already created with pull request will be removed and a new one will be created for the main branch following the same naming convention as before:
-    
+
     ```
     curl -H "Host: initium-nodejs-demo-app.main.example.com" $INITIUM_LB_ENDPOINT
     ```
