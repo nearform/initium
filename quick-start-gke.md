@@ -30,8 +30,18 @@ make asdf_install
 
 3. Install the `gke-gcloud-auth-plugin` and login
 
+Recommended way of plugin installation for Windows & OS X:
 ```bash
 gcloud components install gke-gcloud-auth-plugin
+```
+Recommended way of pluigin installation for Linux:
+[DEB based systems](https://cloud.google.com/sdk/docs/install#deb)
+[RPM based systems](https://cloud.google.com/sdk/docs/install#rpm)
+[Other Linux distros](https://cloud.google.com/sdk/docs/install#linux)
+
+Login to GKE:
+
+```bash
 gcloud auth login
 ```
 
@@ -53,9 +63,10 @@ make argocd
 ```
 
 6. Apply the `initium-platform` app-of-apps.yaml manifest
-    1. Check the [initium-platform releases page](https://github.com/nearform/initium-platform/releases) for the file
+    1. Check the [initium-platform releases page](https://github.com/nearform/initium-platform/releases) for the right file version. Replace the release version in the next command in both places, if needed. 
     2. Apply it with
     ```bash
+    wget -q https://github.com/nearform/initium-platform/releases/download/v0.1.0/app-of-apps.yaml && sed -i 's/v0.1.0/main/' app-of-apps.yaml
     kubectl apply -f app-of-apps.yaml
     ```
 
@@ -78,22 +89,18 @@ make argocd
     1. Remember to set the GitHub Actions workflow permissions to "read and write" [here](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#configuring-the-default-github_token-permissions)
 
 3. Setup the cluster credentials
-    1. remember to replace `<YOUR_CLUSTER_NAME>` with your cluster name
 
 ```
 initium init service-account | kubectl apply -f -
-
-export INITIUM_LB_ENDPOINT="$(kubectl get service -n istio-ingress istio-ingressgateway -o go-template='{{(index .status.loadBalancer.ingress 0).hostname}}'):80"
-export INITIUM_CLUSTER_ENDPOINT=$(kubectl config view -o jsonpath='{.clusters[?(@.name == "<YOUR CLUSTER NAME>")].cluster.server}')
-export INITIUM_CLUSTER_TOKEN=$(kubectl get secrets initium-cli-token -o jsonpath="{.data.token}" | base64 -d)
-export INITIUM_CLUSTER_CA_CERT=$(kubectl get secrets initium-cli-token -o jsonpath="{.data.ca\.crt}" | base64 -d)
 ```
 
 4. [Create the following secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) in your forked repo
 
-- CLUSTER_CA_CERT: `echo $INITIUM_CLUSTER_CA_CERT`
-- CLUSTER_TOKEN: `echo $INITIUM_CLUSTER_TOKEN`
-- CLUSTER_ENDPOINT: use the output of `echo $INITIUM_CLUSTER_ENDPOINT` in the format `ADDRESS:PORT`
+Remember to replace `<YOUR_CLUSTER_NAME>` with your cluster name
+
+- CLUSTER_CA_CERT: `echo $(kubectl get secrets initium-cli-token -o jsonpath="{.data.ca\.crt}" | base64 -d)`
+- CLUSTER_TOKEN: `echo $(kubectl get secrets initium-cli-token -o jsonpath="{.data.token}" | base64 -d)`
+- CLUSTER_ENDPOINT: `echo $(kubectl config view -o jsonpath='{.clusters[?(@.name == "<YOUR CLUSTER NAME>")].cluster.server}')`
 
 5. Initialize the initium config and actions in a new branch of the repo you forked
 
@@ -104,11 +111,18 @@ initium init config --persist
 initium init github
 ```
 
-6. Commit the changes and open a PR
+6. Commit the changes and open a PR. Please use the following values in order to be aligned with the commands on the next steps:
+    - app-name = initium-nodejs-demo-app (part of *.initium.yaml*)
+    - branch-name = initium-test
 
 7. Wait for the action to finish running and check the logs for the application endpoint
 
-If you followed the guide, the endpoint should look like the following
+Set the following env variable for the next command to work.
+```
+export INITIUM_LB_ENDPOINT="$(kubectl get service -n istio-ingress istio-ingressgateway -o go-template='{{(index .status.loadBalancer.ingress 0).ip}}'):80"
+```
+
+If you followed the guide, the endpoint should be reachable using the following:
 
 ```
 curl -H "Host: initium-nodejs-demo-app.initium-test.example.com" $INITIUM_LB_ENDPOINT
@@ -120,7 +134,7 @@ And the call should return:
 Hello, World!
 ```
 
-8. If you merge the PR (DO NOT DELETE THE BRANCH RIGHT AWAY!!!), the service will be removed and a new one will be created for the main branch.
+8. If you merge the PR, the service already created with pull request will be removed and a new one will be created for the main branch following the same naming convention as before:
 
 ```
 curl -H "Host: initium-nodejs-demo-app.main.example.com" $INITIUM_LB_ENDPOINT
