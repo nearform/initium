@@ -55,22 +55,15 @@ You can use [ngrok](https://ngrok.com/) to expose the platform to the GitHub act
     initium-cli init service-account | kubectl apply -f -
     ```
 
-    Get the secrets:
-    ```bash
-    export INITIUM_CLUSTER_ENDPOINT=$(kubectl config view -o jsonpath='{.clusters[?(@.name == "kind-initium-platform")].cluster.server}')
-    export INITIUM_CLUSTER_TOKEN=$(kubectl get secrets initium-cli-token -o jsonpath="{.data.token}" | base64 -d)
-    export INITIUM_CLUSTER_CA_CERT=$(kubectl get secrets initium-cli-token -o jsonpath="{.data.ca\.crt}" | base64 -d)
-    ```
-
 4. [Create the following secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) in your forked repo
 
     #### CLUSTER_CA_CERT
     ```bash
-    echo $INITIUM_CLUSTER_CA_CERT
+    echo $(kubectl get secrets initium-cli-token -o jsonpath="{.data.ca\.crt}" | base64 -d)
     ```
     #### CLUSTER_TOKEN
     ```bash
-    echo $INITIUM_CLUSTER_TOKEN
+    echo $(kubectl get secrets initium-cli-token -o jsonpath="{.data.token}" | base64 -d)
     ```
     #### CLUSTER_ENDPOINT
     ngrok endpoint in the format `#.tcp.ngrok.io:PORT`
