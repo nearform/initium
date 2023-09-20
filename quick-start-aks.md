@@ -111,10 +111,9 @@ make argocd
 ### Install ArgoCD Apps
 
 Apply the `initium-platform` app-of-apps.yaml manifest
-- Check the [initium-platform releases page](https://github.com/nearform/initium-platform/releases) for the file
-- Apply it with
+
 ```bash
-kubectl apply -f app-of-apps.yaml
+kubectl apply -f https://github.com/nearform/initium-platform/releases/latest/download/app-of-apps.yaml
 ```
 
 ### Access ArgoCD and wait for the services to go green
