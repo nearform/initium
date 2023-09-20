@@ -98,16 +98,13 @@ You can use [ngrok](https://ngrok.com/) to expose the platform to the GitHub act
     initium-cli init github
     ```
 
-2. Commit and push the changes and open a PR
+2. Commit and push the changes and open a PR **on your own repo**
 
     ```bash
     git add .
     git commit -m "Initium start"
     git push
     ```
-
-    **NOTE**: Be sure you open a PR on your own repo
-
 
 8. Curl the application
    
