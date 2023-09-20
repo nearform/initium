@@ -40,10 +40,9 @@ make argocd
 ```
 
 5. Apply the `initium-platform` app-of-apps.yaml manifest
-    1. Check the [initium-platform releases page](https://github.com/nearform/initium-platform/releases) for the file
-    2. Apply it with
+
     ```bash
-    kubectl apply -f app-of-apps.yaml
+    kubectl apply -f https://github.com/nearform/initium-platform/releases/latest/download/app-of-apps.yaml
     ```
 
 6. Access ArgoCD and wait for the services to go green
