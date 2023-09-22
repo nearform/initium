@@ -52,7 +52,7 @@ You can use [ngrok](https://ngrok.com/) to expose the platform to the GitHub act
 
     Create service account:
     ```bash
-    initium-cli init service-account | kubectl apply -f -
+    initium init service-account | kubectl apply -f -
     ```
 
     Get the secrets:
@@ -94,8 +94,8 @@ You can use [ngrok](https://ngrok.com/) to expose the platform to the GitHub act
     ```bash
     cd initium-nodejs-demo-app && \
     git checkout -b test && \
-    initium-cli init config --persist && \
-    initium-cli init github
+    initium init config --persist && \
+    initium init github
     ```
 
 2. Commit and push the changes and open a PR **on your own repo**
