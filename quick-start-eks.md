@@ -58,7 +58,7 @@ make argocd
 
 ## The CLI
 
-1. Download the lastest release of the CLI for your operating system [here](https://github.com/nearform/initium-cli/releases) and add it to your PATH.
+1. Download the latest release of the CLI for your operating system [here](https://github.com/nearform/initium-cli/releases) and add it to your PATH (depending on your security settings on macOS, you may need to accept running an application from [unidentified developer](https://support.apple.com/en-us/HT202491)).
 
 2. Fork the Initium [NodeJS demo app](https://github.com/nearform/initium-nodejs-demo-app)
     1. Remember to set the GitHub Actions workflow permissions to "read and write" [here](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#configuring-the-default-github_token-permissions)

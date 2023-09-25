@@ -130,7 +130,7 @@ kubectl apply -f https://github.com/nearform/initium-platform/releases/latest/do
 ## Setup Initium CLI.
 Ignore these steps in case you already have Initium CLI installed.
 
-- Download the lastest release of the CLI for your operating system [here](https://github.com/nearform/initium-cli/releases) and add it to your PATH.
+- Download the latest release of the CLI for your operating system [here](https://github.com/nearform/initium-cli/releases) and add it to your PATH (depending on your security settings on macOS, you may need to accept running an application from [unidentified developer](https://support.apple.com/en-us/HT202491)).
 - Alternatively you can build the CLI from source refer [repo](https://github.com/nearform/initium-cli)
 
 ## Deploy demo app via github actions on PR
