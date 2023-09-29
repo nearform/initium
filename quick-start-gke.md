@@ -46,10 +46,15 @@ gcloud container clusters create initium-cluster \
 
 **Step 5 is not needed if you already have ArgoCD installed in your cluster.**
 
-5. Install ArgoCD
+5. Install ArgoCD with the values required by the platform:
 
 ```bash
-make argocd
+helm upgrade --install argocd argo-cd \
+  --repo https://argoproj.github.io/argo-helm \
+  --values https://github.com/nearform/initium-platform/releases/latest/download/argocd-helm-values.yaml \
+  --version 5.16.14 \
+  --namespace argocd \
+  --create-namespace
 ```
 
 6. Apply the `initium-platform` app-of-apps.yaml manifest
