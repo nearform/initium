@@ -14,13 +14,14 @@ You will need the tools below in order to follow this guide. If you don't have t
 
 ## Create EKS Cluster
 
-If you do not have a cluster with below requirement then proceed with the instruction from this doc.
+If you do not have a working cluster that meets the requirements below, then proceed with the instructions from this section.
 
-- EKS Cluster that is in ready state and requires a 2 node clusters with instances of minimum `m5_large` (Need to check with original author) size. 
-- EBS CSI Driver should be installed as Grafana Loki will consume EBS disk.
-- The cluster's control plane should be publicly exposed so the CLI can reach it and remember to check the cluster's security groups
+- EKS Cluster in ready state, with at least 2 instances of type `m5_large` or bigger. 
+- EBS CSI Driver should be installed as Grafana Loki will use an EBS disk.
+- The cluster's control plane should be publicly exposed so the CLI can reach it
+  - remember to check the cluster's control plane security group for public access on port 443
 
-We are going to use `eksctl` and `aws` cli to provision the eks cluster.
+We are going to use `eksctl` and `aws` to provision the EKS cluster.
 
 ### Authenticate with AWS
 
