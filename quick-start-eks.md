@@ -56,7 +56,7 @@ export CLUSTER_NAME=<Your desired Cluster Name>
 
 ```
 
-### Create & Associate IAM OIDC Provider for our EKS
+### Create and associate an IAM OIDC Provider with the EKS cluster
 
 This enables us to use AWS IAM Roles for Kubernetes service accounts on our EKS Cluster.
 
