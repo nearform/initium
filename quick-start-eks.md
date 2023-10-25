@@ -43,7 +43,7 @@ Create the cluster using eksctl by running the commands below from the terminal.
 
 ```bash
 # Set the AWS deployment region
-export AWS_DEFAULT_REGION=eu-north-1
+export AWS_DEFAULT_REGION=<Your AWS Region>
 
 # Create EKS Cluster using eksctl cli
 eksctl create cluster
