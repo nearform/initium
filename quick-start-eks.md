@@ -52,7 +52,7 @@ eksctl create cluster
 eksctl get clusters
 
 # Set environemt variable for storing EKS Cluster name for further use.
-export CLUSTER_NAME=unique-creature-1694101553
+export CLUSTER_NAME=<Your desired Cluster Name>
 
 ```
 
