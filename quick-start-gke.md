@@ -133,7 +133,7 @@ initium init service-account | kubectl apply -f -
     Hello, World!
     ```
 
-    8. If you merge the PR, the service already created with pull request will be removed and a new one will be created for the main branch following the same naming convention as before:
+    8. If you merge the PR, the service created by the pull request will be removed and a new one will be created for the main branch, following the same naming convention as before:
 
     ```
     curl -H "Host: initium-nodejs-demo-app.main.example.com" $INITIUM_LB_ENDPOINT
