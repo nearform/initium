@@ -89,7 +89,7 @@ eksctl create iamserviceaccount \
 
 #### Adding the Amazon EBS CSI driver add-on
 
-Run the following command. Replace `567858888620` with your account ID, and `AmazonEKS_EBS_CSI_DriverRole`
+Run the following command:
 
 ```bash
 eksctl create addon --name aws-ebs-csi-driver --cluster ${CLUSTER_NAME} --service-account-role-arn arn:aws:iam::567858888620:role/AmazonEKS_EBS_CSI_DriverRole --force
