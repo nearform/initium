@@ -29,11 +29,11 @@ Get the AWS credentials for programmatic access and run the commands below. Then
 
 ```bash
 $ aws configure
-  AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
-  AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-  Default region name [None]: us-west-2
+  AWS Access Key ID [None]: <Your AWS Access Key ID>
+  AWS Secret Access Key [None]: <Your AWS Secret Access Key>
+  Default region name [None]: <Your AWS Region>
   Default output format [None]: json
-$ aws configure set aws_session_token fcZib3JpZ2luX2IQoJb3JpZ2luX2IQoJb3JpZ2luX2IQoJb3JpZ2luX2IQoJb3JpZVERYLONGSTRINGEXAMPLE
+$ aws configure set aws_session_token <Your AWS Session Token - if your organization uses them>
 
 ```
 
