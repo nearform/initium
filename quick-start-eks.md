@@ -12,7 +12,7 @@ You will need the tools below in order to follow this guide. If you don't have t
 - [Initium CLI](https://github.com/nearform/initium-cli)
 
 
-## Create EKS Cluster
+## EKS Cluster Requirements
 
 If you do not have a working cluster that meets the requirements below, then proceed with the instructions from this section.
 
