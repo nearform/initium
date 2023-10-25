@@ -68,11 +68,11 @@ eksctl utils associate-iam-oidc-provider \
     --approve
 ```
 
-### Install EBS CSI driver add on
+### Install EBS CSI driver add-on
 
-EBS CSI driver is consumed by the Grafana Loki service and we need to perform below steps to install this as Addon to the cluster.
+The EBS CSI driver is used by the Grafana Loki service and we need to perform the steps below in order to install it to the cluster.
 
-#### Create EBS CSI Drive role
+#### Create EBS CSI Driver role
 
 Create an IAM role and attach the required AWS managed policy with the following command. 
 
