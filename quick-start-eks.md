@@ -39,7 +39,7 @@ $ aws configure set aws_session_token <Your AWS Session Token - if your organiza
 
 ### Create EKS Cluster
 
-Create cluster using eksctl by running below command from the terminal. Note that this command will provision a Kubernetes cluster with default configuration. It will be a 2 node cluster and by default allows all traffic to the nodes. And set your default region code in the environment variable
+Create the cluster using eksctl by running the commands below from the terminal. Note that this command will provision a Kubernetes cluster with the default EKS configuration. It will be a 2-node cluster and by default will allow any traffic to the nodes. Remember to set your default region code in the environment variable as shown below.
 
 ```bash
 # Set the AWS deployment region
