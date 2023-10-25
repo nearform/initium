@@ -2,6 +2,15 @@
 
 In this guide we will see how to start the [Initium Platform](https://github.com/nearform/initium-platform) on a GKE cluster and deploy an application to it from a GitHub action using the [Initium CLI](https://github.com/nearform/initium-cli).
 
+## Prerequisites
+
+- Kubernetes Engine API (container.googleapis.com) enabled in GCP
+    - you can enable it with the gcloud CLI, like this (don't worry if you don't have the gcloud CLI yet, it will be installed in step 2):
+        ```bash
+        gcloud services enable containerregistry.googleapis.com container.googleapis.com
+        ```
+    - or via the GCP console
+
 ## The Platform
 
 1. Clone the platform repository
@@ -45,12 +54,9 @@ make asdf_install
             --node-locations <COMMA-SEPARATED LIST OF NODE ZONES>
         ```
 
-4. Validate (if not already) that:
-    1. Kubernetes Engine API (container.googleapis.com) is enabled in GCP:
-        ```bash
-        gcloud services enable containerregistry.googleapis.com container.googleapis.com
-        ```
-    2. The cluster's control plane is network accessible so the CLI can reach it (through a VPN or public networks) - potentially check the cluster's networking options
+4. Confirm that:
+    1. The cluster's control plane is network accessible so the CLI can reach it (through a VPN or public networks) - potentially check the cluster's networking options
+    2. The Kubernetes Engine API (container.googleapis.com) is enabled in GCP (as per the Prerequisites section)
 
 **Step 5 is not needed if you already have ArgoCD installed in your cluster.**
 
