@@ -4,11 +4,12 @@ In this guide we will see how to start the [Initium Platform](https://github.com
 
 ## Tools Required
 
-You need to setup below tools in order to proceed with this guide.
+You will need the tools below in order to follow this guide. If you don't have them installed in your machine, that's fine. They can be installed using `asdf_install` from the `initium-platform` repository, as shown in the next steps.
 
-- eksctl cli [Install this tool either following offical guide or using `asdf` utility]
-- aws cli [Install this tool either following offical guide or using `asdf` utility]
-- Initium platform (Refer Initium project)
+- eksctl
+- awscli
+- [Initium Platform](https://github.com/nearform/initium-platform)
+- [Initium CLI](https://github.com/nearform/initium-cli)
 
 
 ## Create EKS Cluster
