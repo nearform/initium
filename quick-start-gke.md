@@ -67,12 +67,8 @@ make argocd
 ```
 
 6. Apply the `initium-platform` app-of-apps.yaml manifest
-    
-    Check the [initium-platform releases page](https://github.com/nearform/initium-platform/releases) for the right file version & apply it. 
-    Replace the release version in the next command in both places, if needed:
     ```bash
-    wget -q https://github.com/nearform/initium-platform/releases/download/v0.1.0/app-of-apps.yaml && sed -i 's/v0.1.0/main/' app-of-apps.yaml
-    kubectl apply -f app-of-apps.yaml
+    kubectl apply -f https://github.com/nearform/initium-platform/releases/latest/download/app-of-apps.yaml
     ```
 
 7. Access ArgoCD and wait for the services to go green
@@ -88,7 +84,7 @@ make argocd
 
 ## The CLI
 
-1. Download the lastest release of the CLI for your operating system [here](https://github.com/nearform/initium-cli/releases) and add it to your PATH.
+1. Download the latest release of the CLI for your operating system [here](https://github.com/nearform/initium-cli/releases) and add it to your PATH (depending on your security settings on macOS, you may need to accept running an application from [unidentified developer](https://support.apple.com/en-us/HT202491)).
 
 2. Fork the Initium [NodeJS demo app](https://github.com/nearform/initium-nodejs-demo-app)
     1. Remember to set the GitHub Actions workflow permissions to "read and write" [here](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#configuring-the-default-github_token-permissions)
