@@ -92,7 +92,7 @@ eksctl create iamserviceaccount \
 Run the following command:
 
 ```bash
-eksctl create addon --name aws-ebs-csi-driver --cluster ${CLUSTER_NAME} --service-account-role-arn arn:aws:iam::567858888620:role/AmazonEKS_EBS_CSI_DriverRole --force
+eksctl create addon --name aws-ebs-csi-driver --cluster ${CLUSTER_NAME} --service-account-role-arn arn:aws:iam::<Your AWS Account ID>:role/AmazonEKS_EBS_CSI_DriverRole --force
 
 ```
 
