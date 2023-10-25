@@ -25,7 +25,7 @@ We are going to use `eksctl` and `aws` to provision the EKS cluster.
 
 ### Authenticate with AWS
 
-Get the AWS credentials for programmatic access and run below command then enter the credentials when prompted. Refer the [AWS docs](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html) for other methods to authenticate with AWS.
+Get the AWS credentials for programmatic access and run the commands below. Then, enter the credentials when prompted. Refer to the [AWS docs](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html) for other methods to authenticate with the AWS CLI.
 
 ```bash
 $ aws configure
