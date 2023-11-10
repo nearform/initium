@@ -102,10 +102,15 @@ kubectl cluster-info
 ```
 
 ### Install ArgoCD
-From the root of the `initium-platform` repo run below command
+Install ArgoCD with the values required by the platform:
 
 ```bash
-make argocd
+helm upgrade --install argocd argo-cd \
+  --repo https://argoproj.github.io/argo-helm \
+  --values https://github.com/nearform/initium-platform/releases/latest/download/argocd-helm-values.yaml \
+  --version 5.16.14 \
+  --namespace argocd \
+  --create-namespace
 ```
 
 ### Install ArgoCD Apps

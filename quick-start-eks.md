@@ -117,10 +117,15 @@ make asdf_install
 AWS_DEFAULT_REGION=<your default region> ~/.asdf/installs/eksctl/<eksctl version installed>/bin/eksctl create cluster
 ```
 
-4. Install ArgoCD (can be skipped if you already have a cluster and ArgoCD installed in it)
+4. Install ArgoCD with the values required by the platform:
 
 ```bash
-make argocd
+helm upgrade --install argocd argo-cd \
+  --repo https://argoproj.github.io/argo-helm \
+  --values https://github.com/nearform/initium-platform/releases/latest/download/argocd-helm-values.yaml \
+  --version 5.16.14 \
+  --namespace argocd \
+  --create-namespace
 ```
 
 5. Apply the `initium-platform` app-of-apps.yaml manifest
