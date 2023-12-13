@@ -41,3 +41,7 @@ We created Initium to solve an issue that we and many of the organizations we wo
 Infrastructure Engineers must then wait for the account to be provisioned, access to be provided, and technology to be chosen. Only then can they start testing their Infrastructure as Code, and even here the iteration loop is slower than the software iteration.
 
 Developers, on the other hand, can have a simple ‘Hello World’ server ready in less than 10 minutes. However, if they want to deploy this server then they'll have to wait for the infrastructure to be prepared, get access, understand how to deploy the code, write a Dockerfile, create one or more pipelines and come up with a proper workflow to iterate.
+
+## Documentation
+
+Find all the documentation and getting started guides in the [Initium website](https://initium.nearform.com)
